@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LANCER :: MISSION BRIEFING // IRON VEIL</title>
+    <!-- Import fonts: futuristic & technical -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #0a0c12 0%, #030507 100%);
+            font-family: 'Inter', sans-serif;
+            color: #eef5ff;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        .briefing-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: rgba(8, 12, 18, 0.65);
+            backdrop-filter: blur(3px);
+            border-radius: 2.5rem;
+            border: 1px solid rgba(255, 100, 50, 0.4);
+            box-shadow: 0 25px 40px -15px rgba(0,0,0,0.6), 0 0 0 1px rgba(255, 120, 50, 0.15) inset;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .mission-header {
+            padding: 1.8rem 2.5rem 1.2rem 2.5rem;
+            background: linear-gradient(95deg, #0b101a 0%, #070b10 100%);
+            border-bottom: 2px solid #ff7840;
+            position: relative;
+        }
+
+        .mission-header::before {
+            content: "// CONTROL MISSION // ZONE CONTEST // 6 ROUNDS";
+            position: absolute;
+            bottom: -12px;
+            right: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            background: #2a1a0f;
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            color: #ff9f60;
+            border: 1px solid #ff7840;
+            backdrop-filter: blur(2px);
+        }
+
+        .mission-badge {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .op-codename h1 {
+            font-size: 2.7rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF 0%, #ffb070 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(255,100,50,0.3);
+        }
+
+        .op-codename p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #ffb87c;
+            border-left: 3px solid #ff7840;
+            padding-left: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .priority-tag {
+            background: rgba(255, 80, 40, 0.25);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            border: 1px solid #ff7840;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .priority-tag i {
+            color: #ff7840;
+            margin-right: 8px;
+        }
+
+        .briefing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 0;
+            border-top: 1px solid rgba(255, 120, 64, 0.25);
+        }
+
+        .mission-sidebar {
+            background: rgba(0, 5, 10, 0.6);
+            padding: 2rem 1.8rem;
+            border-right: 1px solid rgba(255, 120, 64, 0.4);
+        }
+
+        .info-block {
+            margin-bottom: 2rem;
+        }
+
+        .info-block h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ff9f60;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .info-block h3 i {
+            font-size: 1rem;
+        }
+
+        .detail-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #9ca9c3;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #eef5ff;
+        }
+
+        .hostile-list {
+            margin-top: 0.8rem;
+            list-style: none;
+        }
+
+        .hostile-list li {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,240,0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .hostile-list li i {
+            width: 28px;
+            color: #ff9f60;
+        }
+
+        .asset-badge {
+            background: rgba(42, 180, 120, 0.15);
+            border-left: 3px solid #5affb0;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+
+        .brief-section {
+            margin-bottom: 2rem;
+        }
+
+        .brief-section h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            border-left: 4px solid #ff7840;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .brief-section p, .brief-section ul {
+            margin-left: 1.5rem;
+            color: #d4e2fc;
+            font-size: 1rem;
+        }
+
+        .brief-section ul {
+            list-style: none;
+        }
+
+        .brief-section ul li {
+            margin-bottom: 0.65rem;
+            display: flex;
+            gap: 0.8rem;
+            align-items: baseline;
+        }
+
+        .brief-section ul li i {
+            color: #ff9f60;
+            font-size: 0.85rem;
+            width: 1.4rem;
+            margin-top: 0.2rem;
+        }
+
+        .objective-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0 0 1.5rem;
+        }
+
+        .objective-card {
+            background: rgba(30, 20, 12, 0.7);
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            flex: 1 1 100%;
+            border: 1px solid rgba(255, 120, 64, 0.5);
+            backdrop-filter: blur(4px);
+            transition: 0.1s linear;
+        }
+
+        .objective-card strong {
+            display: block;
+            font-size: 1.2rem;
+            color: #ffc89c;
+            margin-bottom: 0.5rem;
+        }
+
+        .objective-card span {
+            font-size: 0.9rem;
+            color: #ffdfb0;
+        }
+
+        .control-rules {
+            background: rgba(0, 0, 0, 0.55);
+            border-radius: 1rem;
+            padding: 1.2rem 1.5rem;
+            margin: 0.8rem 0 0 1.5rem;
+            border: 1px solid #ff9f6066;
+        }
+
+        .control-rules h4 {
+            color: #ff9f60;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .control-rules p {
+            margin-left: 0 !important;
+            margin-bottom: 0.5rem;
+        }
+
+        .rule-block {
+            background: rgba(255, 120, 64, 0.08);
+            padding: 0.8rem;
+            border-radius: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .victory-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .victory-item {
+            background: rgba(0,0,0,0.4);
+            border-left: 3px solid #ff9f60;
+            padding: 0.6rem 0.8rem;
+            border-radius: 0.5rem;
+        }
+
+        .victory-item strong {
+            color: #ffbc7a;
+        }
+
+        .extract-warning {
+            background: rgba(255, 80, 40, 0.1);
+            border-left: 4px solid #ff7840;
+            padding: 1rem 1.2rem;
+            border-radius: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .mission-footer {
+            padding: 1rem 2rem;
+            background: #03070c;
+            border-top: 1px solid #4a2a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: #b87a4a;
+        }
+
+        .auth-stamp {
+            letter-spacing: 1px;
+        }
+
+        .auth-stamp i {
+            margin-right: 6px;
+            color: #ff9f60;
+        }
+
+        .countdown {
+            background: #0a121c;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .briefing-grid {
+                grid-template-columns: 1fr;
+            }
+            .mission-sidebar {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 120, 64, 0.4);
+            }
+            body {
+                padding: 1rem;
+            }
+            .op-codename h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .briefing-container:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, rgba(255,100,50,0.02) 0px, rgba(255,100,50,0.02) 2px, transparent 2px, transparent 6px);
+        }
+
+        button.copy-brief {
+            background: none;
+            border: 1px solid #ff9f60;
+            color: #ff9f60;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-family: monospace;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.7rem;
+        }
+
+        button.copy-brief:hover {
+            background: #ff9f6020;
+            box-shadow: 0 0 5px #ff9f60;
+        }
+    </style>
+</head>
+<body>
+
+<div class="briefing-container">
+    <div class="mission-header">
+        <div class="mission-badge">
+            <div class="op-codename">
+                <h1>OPERATION: IRON VEIL</h1>
+                <p>// IFF OVERRIDE // TURRET NETWORK RECLAMATION // CARMINE FALLOUT</p>
+            </div>
+            <div class="priority-tag">
+                <i class="fas fa-flag-checkered"></i>  PRIORITY :: CRITICAL
+            </div>
+        </div>
+    </div>
+
+    <div class="briefing-grid">
+        <!-- Left panel: mission data, enemies, lancer assets -->
+        <div class="mission-sidebar">
+            <div class="info-block">
+                <h3><i class="fas fa-map-marked-alt"></i> OPERATIONAL DATA</h3>
+                <div class="detail-line"><span class="detail-label">DATE (UTC)</span><span class="detail-value">08.21.5016u // 0612H</span></div>
+                <div class="detail-line"><span class="detail-label">THEATER</span><span class="detail-value">Hellsir Arcology – Central Nexus Platform</span></div>
+                <div class="detail-line"><span class="detail-label">TERRAIN</span><span class="detail-value">Urban sprawl, fortified hardpoints, elevated turret galleries</span></div>
+                <div class="detail-line"><span class="detail-label">DEPLOYMENT</span><span class="detail-value">Orbital Drop / Contested Zone</span></div>
+            </div>
+
+            <div class="info-block">
+                <h3><i class="fas fa-skull-crossbones"></i> HOSTILE FORCES (OPFOR)</h3>
+                <ul class="hostile-list">
+                    <li><i class="fas fa-dragon"></i> <strong>Goliath-Class DAGUN Frame</strong> – Heavy siege chassis, frontal assault specialist</li>
+                    <li><i class="fas fa-users"></i> <strong>Mercenary Cohort “Ash Spears”</strong> – Veteran infantry w/ anti-armor</li>
+                    <li><i class="fas fa-shield-haltered"></i> <strong>CARMINE FALLOUT Enforcers</strong> – Light mechanized squads</li>
+                    <li><i class="fas fa-missile"></i> <strong>Unknown Element</strong> – Scattered reports of hostile artillery frame</li>
+                </ul>
+                <div class="asset-badge" style="margin-top: 12px;">
+                    <i class="fas fa-chart-line"></i> THREAT ASSESSMENT: MED // HIGH
+                </div>
+            </div>
+
+            <div class="info-block">
+                <h3><i class="fas fa-mech"></i> LOCAL ASSETS</h3>
+                <div class="detail-line"><span class="detail-label">TEAM COMPOSITION</span><span class="detail-value">4x Everest Frame (LL0) – 4 PILOTS</span></div>
+                <div class="detail-line"><span class="detail-label">SUPPORT</span><span class="detail-value">Artillery Drone Swarm (ONE-TIME USE, heavy barrage)</span></div>
+                <div class="detail-line"><span class="detail-label">CONTROL ZONES</span><span class="detail-value">4x hardpoints – contest at end of round</span></div>
+            </div>
+
+            <div class="info-block">
+                <h3><i class="fas fa-satellite-dish"></i> ENVIRONMENTAL HAZARDS</h3>
+                <div class="detail-line"><span class="detail-label">IFF JAMMING</span><span class="detail-value">Local defense grid compromised</span></div>
+                <div class="detail-line"><span class="detail-label">COVER</span><span class="detail-value">Destructible bunkers, limited hard cover near CZs</span></div>
+            </div>
+        </div>
+
+        <!-- Right panel: mission brief with condensed objectives and Control rules -->
+        <div class="mission-brief">
+            <div class="brief-section">
+                <h2><i class="fas fa-bullhorn"></i> SITUATION OVERVIEW</h2>
+                <p>Rogue SSC sub-faction <strong>"CARMINE FALLOUT"</strong> has seized the Hellsir Arcology’s defensive nexus. The platform's four <strong>Leviathan HAC auto-turrets</strong> have been subverted with hostile IFF codes, currently targeting any Union-aligned signature. Enemy forces are using the turrets as force multipliers to lock down the sector. Your fireteam must <strong>capture and hold</strong> each turret control node long enough to revert targeting parameters and turn the defensive network against CARMINE FALLOUT.</p>
+                <p style="margin-top: 0.8rem;">Intel confirms the presence of a <strong>Goliath-Class DAGUN Frame</strong> leading the assault, supported by mercenary infantry. Hold the line, and regain control of the turrets before time runs out.</p>
+            </div>
+
+            <div class="brief-section">
+                <h2><i class="fas fa-crosshairs"></i> PRIMARY OBJECTIVE: CONTROL ZONES</h2>
+                <div class="objective-grid">
+                    <div class="objective-card">
+                        <strong><i class="fas fa-map-pin"></i> CZ ALPHA • BRAVO • CHARLIE • DELTA</strong>
+                        <span>Four strategic hardpoints outfitted with . Control as many as possible at the end of each round to build your score. Contest zones by having more units within the CZ radius than the enemy, or clear opposing forces.</span>
+                    </div>
+                </div>
+                
+                <!-- Control Mission Rules - condensed, no skill checks -->
+                <div class="control-rules">
+                    <h4><i class="fas fa-dice-d6"></i> CONTROL MISSION PROTOCOL</h4>
+                    <p><strong>SCORING:</strong> At the end of each round, each side gains <strong>1 point</strong> for each Control Zone (CZ) they control. If one side controls <strong>all four CZs</strong> at the end of a round, they gain an <strong>additional +1 point</strong> (total 5 points that round).</p>
+                    <div class="rule-block">
+                        <p><i class="fas fa-flag-checkered"></i> <strong>VICTORY CONDITIONS</strong></p>
+                        <div class="victory-box">
+                            <div class="victory-item"><strong>🏆 PC Victory:</strong> The PCs have the highest score at the end of the sixth round.</div>
+                            <div class="victory-item"><strong>💀 Enemy Victory:</strong> If 3 or more turret nodes are permanently destroyed or CARMINE FALLOUT have the highest score at the end of the sixth round.</div>
+                            <div class="victory-item"><strong>⚖️ Stalemate:</strong> If both sides have an equal score at the end of the sixth round, there is no victor and both sides must withdraw.</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 0.8rem;"><i class="fas fa-people-arrows"></i> <strong>CONTROLLING A ZONE:</strong> A side controls a CZ if they have at least one unit within the zone's radius and the opposing side has <strong>zero</strong> units inside that same zone. If both sides have units present, the zone is <strong>contested</strong> and neither side scores it.</p>
+                </div>
+            </div>
+
+            <div class="brief-section">
+                <h2><i class="fas fa-tasks"></i> SECONDARY OBJECTIVES</h2>
+                <ul>
+                    <li><i class="fa fa-low-vision"></i> <strong>Confirm Reports of Artillery Mech:</strong> If true, an enemy artillery frame greatly threatens friendly units. Confirm these reports and eliminate the threat if any.</li>
+                    <li><i class="fas fa-bomb"></i> <strong>Disable Goliath DAGUN Frame:</strong> Heavy assault unit will attempt to break your defensive line. Bring it down for bonus rewards and to deny enemy zone-breaking power.</li>
+                </ul>
+            </div>
+
+            <div class="brief-section">
+                <h2><i class="fas fa-rocket"></i> SUPPORT ASSET: ARTILLERY DRONE SWARM</h2>
+                <p>✦ <strong>One-time use:</strong> Designate a <strong>Blast 3</strong> zone within line-of-sight. Heavy kinetic bombardment deals <strong>2d6+4 explosive damage</strong> to all targets (including structures). Effective against clustered enemies contesting a CZ.</p>
+                <div class="extract-warning">
+                    <i class="fas fa-clock"></i> <strong>TACTICAL NOTE:</strong> Enemy reinforcements may arrive from the eastern approach. Focus on zone control rather than total annihilation.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mission-footer">
+        <div class="auth-stamp">
+            <i class="fas fa-fingerprint"></i> AUTHORIZED BY: UNION TACTICAL COMMAND // CONTROL MISSION // OP-IRON-VEIL
+        </div>
+        <div class="countdown">
+            <i class="fas fa-hourglass-half"></i> MISSION START T-MINUS: <span id="missionTimer">LOADING</span>
+        </div>
+        <button class="copy-brief" id="copyBriefBtn"><i class="far fa-copy"></i> COPY BRIEFING ID</button>
+    </div>
+</div>
+
+<script>
+    const MISSION_START_TIME = new Date(Date.UTC(2026, 2, 23, 1, 45, 0));
+    // Mission countdown timer (immersive)
+    function getNextMissionStart() {
+        return MISSION_START_TIME;
+    }
+
+    let missionStartDate = getNextMissionStart();
+
+    function updateCountdown() {
+        const timerEl = document.getElementById('missionTimer');
+        if(!timerEl) return;
+        let now = new Date();
+        let diff = missionStartDate - now;
+        if(diff <= 0) {
+            timerEl.innerHTML = "00:00:00 — ACTIVE";
+            return;
+        }
+        let hours = Math.floor(diff / 3600000);
+        let minutes = Math.floor((diff % 3600000) / 60000);
+        let seconds = Math.floor((diff % 60000) / 1000);
+        timerEl.innerHTML = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Copy briefing summary with control rules
+    const copyBtn = document.getElementById('copyBriefBtn');
+    if(copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            const briefText = `LANCER MISSION // OPERATION: IRON VEIL
+OBJECTIVE: Revert IFF of 4 auto-turrets to target CARMINE FALLOUT.
+ENEMIES: Goliath-Class DAGUN Frame, Artillery Mech, Ash Spears mercs.
+ASSETS: 4x Everest frames + one-time artillery drone swarm.`;
+            navigator.clipboard.writeText(briefText).then(() => {
+                const toast = document.createElement('div');
+                toast.innerText = '✓ Control Mission brief copied to clipboard.';
+                toast.style.position = 'fixed';
+                toast.style.bottom = '20px';
+                toast.style.left = '50%';
+                toast.style.transform = 'translateX(-50%)';
+                toast.style.background = '#1f2a1a';
+                toast.style.color = '#ff9f60';
+                toast.style.padding = '0.6rem 1.5rem';
+                toast.style.borderRadius = '40px';
+                toast.style.fontFamily = "'JetBrains Mono', monospace";
+                toast.style.fontSize = '0.8rem';
+                toast.style.border = '1px solid #ff9f60';
+                toast.style.zIndex = '9999';
+                toast.style.backdropFilter = 'blur(8px)';
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 500);
+                }, 2000);
+            }).catch(() => {
+                alert("Manual copy: mission data ready.");
+            });
+        });
+    }
+
+    // subtle hover for objective cards
+    const cards = document.querySelectorAll('.objective-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-3px)';
+            card.style.transition = '0.1s linear';
+            card.style.boxShadow = '0 0 12px rgba(255,120,64,0.4)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+            card.style.boxShadow = 'none';
+        });
+    });
+</script>
+</body>
+</html>
